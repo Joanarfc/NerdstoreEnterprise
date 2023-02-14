@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace NSE.WebApp.MVC.Controllers
 {
-    public class IdentidadeController : Controller
+    public class IdentidadeController : MainController
     {
         private readonly IAutenticacaoService _autenticacaoService;
 
@@ -31,12 +31,13 @@ namespace NSE.WebApp.MVC.Controllers
         [Route("nova-conta")]
         public async Task<IActionResult> Registo(UsuarioRegisto usuarioRegisto)
         {
-            if(!ModelState.IsValid) return View(usuarioRegisto);
+            if (!ModelState.IsValid) return View(usuarioRegisto);
 
             // API - User registration
             var resposta = await _autenticacaoService.Registo(usuarioRegisto);
 
-            if (false) return View(usuarioRegisto);
+            /* If the response from the registration through the service API contains errors, it will return to the View */
+            if (ResponsePossuiErros(resposta.ResponseResult)) return View(usuarioRegisto);
 
             // Execute login in the app
             await RealizarLogin(resposta);
@@ -61,7 +62,8 @@ namespace NSE.WebApp.MVC.Controllers
 
             var resposta = await _autenticacaoService.Login(usuarioLogin);
 
-            if (false) return View(usuarioLogin);
+            /* If the response from the login through the service API contains errors, it will return to the View */
+            if (ResponsePossuiErros(resposta.ResponseResult)) return View(usuarioLogin);
 
             // Execute login in the app
             await RealizarLogin(resposta);
@@ -97,7 +99,7 @@ namespace NSE.WebApp.MVC.Controllers
             };
 
             await HttpContext.SignInAsync(
-                CookieAuthenticationDefaults.AuthenticationScheme, 
+                CookieAuthenticationDefaults.AuthenticationScheme,
                 new ClaimsPrincipal(claimsIdentity),
                 authProperties);
         }
