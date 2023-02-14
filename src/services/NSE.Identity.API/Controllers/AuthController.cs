@@ -10,6 +10,8 @@ using System.Text;
 using System;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Options;
+using System.Collections;
+using System.Collections.Generic;
 
 namespace NSE.Identity.API.Controllers
 {
@@ -82,6 +84,18 @@ namespace NSE.Identity.API.Controllers
             /* Retrieve the user information (claims and roles) associated with the email using the _userManager  */
             var user = await _userManager.FindByNameAsync(email);
             var claims = await _userManager.GetClaimsAsync(user);
+
+            /* Obtain the user claims */
+            var identityClaims = await ObterClaimsUsuario(claims, user);
+            
+            /* Generate the encoded token */
+            var encodedToken = CodificarToken(identityClaims);
+
+
+            return ObterRespostaToken(encodedToken, user, claims); 
+        }
+        private async Task<ClaimsIdentity> ObterClaimsUsuario(ICollection<Claim> claims, IdentityUser user)
+        {
             var userRoles = await _userManager.GetRolesAsync(user);
 
             /* Add claims with additional information: user Id (Sub), Email, JWT unique identifier (Jti)
@@ -100,6 +114,10 @@ namespace NSE.Identity.API.Controllers
             var identityClaims = new ClaimsIdentity();
             identityClaims.AddClaims(claims);
 
+            return identityClaims;
+        }
+        private string CodificarToken(ClaimsIdentity identityClaims)
+        {
             var tokenHandler = new JwtSecurityTokenHandler();
             var key = Encoding.ASCII.GetBytes(_appSettings.Secret);
 
@@ -116,14 +134,15 @@ namespace NSE.Identity.API.Controllers
                 SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
             });
 
-            /* Generate the encoded token */
-            var endodedToken = tokenHandler.WriteToken(token);
-
-            /* Generation of a response object containing the encoded token, its expiration time
+            return tokenHandler.WriteToken(token);
+        }
+        private UsuarioRespostaLogin ObterRespostaToken(string encodedToken, IdentityUser user, IEnumerable<Claim> claims)
+        {
+            /* Generation of a UsuarioRespostaLogin object containing the encoded token, its expiration time
                and the user information (Id, email and Claims) associated with the token */
-            var response = new UsuarioRespostaLogin
+            return new UsuarioRespostaLogin
             {
-                AccessToken = endodedToken,
+                AccessToken = encodedToken,
                 ExpiresIn = TimeSpan.FromHours(_appSettings.ExpiracaoHoras).TotalSeconds,
                 UsuarioToken = new UsuarioToken
                 {
@@ -132,8 +151,6 @@ namespace NSE.Identity.API.Controllers
                     Claims = claims.Select(c => new UsuarioClaim { Type = c.Type, Value = c.Value })
                 }
             };
-
-            return response;
         }
 
         /* Calculate the number of seconds elapsed since the Unix epoch (January 1, 1970, 00:00:00 UTC) to a given date */
