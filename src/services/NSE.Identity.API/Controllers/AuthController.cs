@@ -10,7 +10,6 @@ using System.Text;
 using System;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Options;
-using System.Collections;
 using System.Collections.Generic;
 
 namespace NSE.Identity.API.Controllers
