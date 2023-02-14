@@ -14,7 +14,7 @@ using System.Collections.Generic;
 
 namespace NSE.Identity.API.Controllers
 {
-    [Route("api(identidade")]
+    [Route("api/identidade")]
     public class AuthController : MainController
     {
         private readonly SignInManager<IdentityUser> _signInManager;
