@@ -17,7 +17,23 @@
         "ASPNETCORE_ENVIRONMENT": "Development"
       }
     },
-    "NSE.Catalog.API": {
+    "IIS - Staging": {
+      "commandName": "IISExpress",
+      "launchBrowser": true,
+      "launchUrl": "weatherforecast",
+      "environmentVariables": {
+        "ASPNETCORE_ENVIRONMENT": "Staging"
+      }
+    },
+    "IIS - Production": {
+      "commandName": "IISExpress",
+      "launchBrowser": true,
+      "launchUrl": "weatherforecast",
+      "environmentVariables": {
+        "ASPNETCORE_ENVIRONMENT": "Production"
+      }
+    },
+    "SelfHosting - Development": {
       "commandName": "Project",
       "launchBrowser": true,
       "launchUrl": "weatherforecast",
