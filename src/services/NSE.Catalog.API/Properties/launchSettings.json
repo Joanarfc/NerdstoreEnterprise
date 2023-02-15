@@ -5,11 +5,11 @@
     "anonymousAuthentication": true,
     "iisExpress": {
       "applicationUrl": "http://localhost:14040",
-      "sslPort": 44343
+      "sslPort": 44393
     }
   },
   "profiles": {
-    "IIS Express": {
+    "IIS - Development": {
       "commandName": "IISExpress",
       "launchBrowser": true,
       "launchUrl": "swagger",
