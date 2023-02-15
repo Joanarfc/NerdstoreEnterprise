@@ -16,6 +16,16 @@ namespace NSE.Catalog.API.Configuration
             options.UseSqlServer(configuration.GetConnectionString("DefaultConnection")));
 
             services.AddControllers();
+
+            services.AddCors(options =>
+            {
+                options.AddPolicy("Total",
+                    builder =>
+                    builder
+                    .AllowAnyOrigin()
+                    .AllowAnyMethod()
+                    .AllowAnyHeader());
+            });
         }
         public static void UseApiConfiguration(this IApplicationBuilder app, IWebHostEnvironment env)
         {
@@ -28,7 +38,7 @@ namespace NSE.Catalog.API.Configuration
 
             app.UseRouting();
 
-            app.UseAuthorization();
+            app.UseCors("Total");
 
             app.UseEndpoints(endpoints =>
             {
