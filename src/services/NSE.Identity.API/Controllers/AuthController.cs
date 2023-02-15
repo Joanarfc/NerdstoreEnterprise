@@ -1,7 +1,6 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
-using NSE.Identity.API.Extensions;
 using NSE.Identity.API.Models;
 using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
@@ -11,6 +10,7 @@ using System;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Options;
 using System.Collections.Generic;
+using NSE.WebAPI.Core.Identidade;
 
 namespace NSE.Identity.API.Controllers
 {
