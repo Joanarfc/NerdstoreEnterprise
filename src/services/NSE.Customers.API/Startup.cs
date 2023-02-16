@@ -23,7 +23,7 @@ namespace NSE.Customers.API
 
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddApiConfiguration();
+            services.AddApiConfiguration(Configuration);
 
             services.AddSwaggerConfiguration();
         }
