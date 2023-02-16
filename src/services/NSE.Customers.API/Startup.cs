@@ -4,6 +4,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using NSE.Customers.API.Configuration;
+using NSE.WebAPI.Core.Identidade;
 
 namespace NSE.Customers.API
 {
@@ -24,6 +25,8 @@ namespace NSE.Customers.API
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddApiConfiguration(Configuration);
+
+            services.AddJwtConfiguration(Configuration);
 
             services.AddSwaggerConfiguration();
         }

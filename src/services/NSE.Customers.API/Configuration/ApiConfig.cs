@@ -5,6 +5,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using NSE.Customers.API.Data;
+using NSE.WebAPI.Core.Identidade;
 
 namespace NSE.Customers.API.Configuration
 {
@@ -40,6 +41,8 @@ namespace NSE.Customers.API.Configuration
             app.UseRouting();
 
             app.UseCors("Total");
+
+            app.UseJwtConfiguration();
 
             app.UseEndpoints(endpoints =>
             {
