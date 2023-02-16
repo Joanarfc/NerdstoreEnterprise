@@ -1,31 +1,21 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
 using NSE.WebApp.MVC.Models;
-using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace NSE.WebApp.MVC.Controllers
 {
     public class HomeController : Controller
     {
-        private readonly ILogger<HomeController> _logger;
-
-        public HomeController(ILogger<HomeController> logger)
+        [Route("sistema-indisponivel")]
+        public IActionResult SistemaIndisponivel()
         {
-            _logger = logger;
-        }
+            var modelErro = new ErrorViewModel
+            {
+                Mensagem = "O sistema está temporariamente indisponível, isto pode ocorrer em momentos de sobrecarga de utilizadores.",
+                Titulo = "Sistema indisponível.",
+                ErroCode = 500
+            };
 
-        public IActionResult Index()
-        {
-            return View();
-        }
-
-        public IActionResult Privacy()
-        {
-            return View();
+            return View("Error", modelErro);
         }
 
         [Route("erro/{id:length(3,3)}")]
