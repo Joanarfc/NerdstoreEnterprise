@@ -11,6 +11,7 @@ using System.Threading.Tasks;
 using Microsoft.Extensions.Options;
 using System.Collections.Generic;
 using NSE.WebAPI.Core.Identidade;
+using NSE.WebAPI.Core.Controllers;
 
 namespace NSE.Identity.API.Controllers
 {
