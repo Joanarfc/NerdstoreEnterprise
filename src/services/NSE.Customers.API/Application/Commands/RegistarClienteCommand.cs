@@ -23,32 +23,32 @@ namespace NSE.Customers.API.Application.Commands
             ValidationResult = new RegistarClienteValidation().Validate(this);
             return ValidationResult.IsValid;
         }
-    }
-    public class RegistarClienteValidation : AbstractValidator<RegistarClienteCommand>
-    {
-        public RegistarClienteValidation()
+        public class RegistarClienteValidation : AbstractValidator<RegistarClienteCommand>
         {
-            RuleFor(c => c.Id)
-                .NotEqual(Guid.Empty)
-                .WithMessage("Id do cliente inválido!");
+            public RegistarClienteValidation()
+            {
+                RuleFor(c => c.Id)
+                    .NotEqual(Guid.Empty)
+                    .WithMessage("Id do cliente inválido!");
 
-            RuleFor(c => c.Cpf)
-                .Must(TerCpfValido)
-                .WithMessage("O CPF informado não é válido!");
+                RuleFor(c => c.Cpf)
+                    .Must(TerCpfValido)
+                    .WithMessage("O CPF informado não é válido!");
 
-            RuleFor(c => c.Email)
-                .Must(TerEmailValido)
-                .WithMessage("O Email informado não é válido!");
-        }
-        protected static bool TerCpfValido(string cpf)
-        {
-            return Core.DomainObjects.Cpf.Validar(cpf);
-        }
+                RuleFor(c => c.Email)
+                    .Must(TerEmailValido)
+                    .WithMessage("O Email informado não é válido!");
+            }
+            protected static bool TerCpfValido(string cpf)
+            {
+                return Core.DomainObjects.Cpf.Validar(cpf);
+            }
 
-        protected static bool TerEmailValido(string email)
-        {
-            return Core.DomainObjects.Email.Validar(email);
+            protected static bool TerEmailValido(string email)
+            {
+                return Core.DomainObjects.Email.Validar(email);
 
+            }
         }
     }
 }
