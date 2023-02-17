@@ -10,6 +10,13 @@ namespace NSE.Customers.API.Application.Commands
     public class ClienteCommandHandler : CommandHandler,
                                          IRequestHandler<RegistarClienteCommand, ValidationResult>
     {
+        private readonly IClienteRepository _clienteRepository;
+
+        public ClienteCommandHandler(IClienteRepository clienteRepository)
+        {
+            _clienteRepository = clienteRepository;
+        }
+
         public async Task<ValidationResult> Handle(RegistarClienteCommand message, CancellationToken cancellationToken)
         {
             // Validate command
@@ -19,13 +26,18 @@ namespace NSE.Customers.API.Application.Commands
             var cliente = new Cliente(message.Id, message.Nome, message.Email, message.Cpf);
 
             // Business validations
-            if (true) // There's already a client with this CPF
+            var clienteExistente = await _clienteRepository.ObterPorCpf(cliente.Cpf.Numero);
+
+            if (clienteExistente != null)
             {
                 AdicionarErro("Este CPF já está em uso");
                 return ValidationResult;
             }
 
             // Persist in the database
+            _clienteRepository.Adicionar(cliente);
+
+            return await PersistirDados(_clienteRepository.UnitOfWork);
         }
     }
 }
