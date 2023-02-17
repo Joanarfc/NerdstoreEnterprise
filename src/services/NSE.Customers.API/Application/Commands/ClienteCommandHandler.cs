@@ -1,6 +1,7 @@
 ﻿using FluentValidation.Results;
 using MediatR;
 using NSE.Core.Messages;
+using NSE.Customers.API.Application.Events;
 using NSE.Customers.API.Models;
 using System.Threading;
 using System.Threading.Tasks;
@@ -36,6 +37,8 @@ namespace NSE.Customers.API.Application.Commands
 
             // Persist in the database
             _clienteRepository.Adicionar(cliente);
+
+            cliente.AdicionarEvento(new ClienteRegistadoEvent(message.Id, message.Nome, message.Email, message.Cpf));
 
             return await PersistirDados(_clienteRepository.UnitOfWork);
         }
