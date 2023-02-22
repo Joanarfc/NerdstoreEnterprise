@@ -12,6 +12,8 @@ using Microsoft.Extensions.Options;
 using System.Collections.Generic;
 using NSE.WebAPI.Core.Identidade;
 using NSE.WebAPI.Core.Controllers;
+using NSE.Core.Messages.Integration;
+using EasyNetQ;
 
 namespace NSE.Identity.API.Controllers
 {
@@ -21,14 +23,17 @@ namespace NSE.Identity.API.Controllers
         private readonly SignInManager<IdentityUser> _signInManager;
         private readonly UserManager<IdentityUser> _userManager;
         private readonly AppSettings _appSettings;
+        private IBus _bus;
 
         public AuthController(SignInManager<IdentityUser> signInManager,
                               UserManager<IdentityUser> userManager,
-                              IOptions<AppSettings> appSettings)
+                              IOptions<AppSettings> appSettings,
+                              IBus bus)
         {
             _signInManager = signInManager;
             _userManager = userManager;
             _appSettings = appSettings.Value;
+            _bus = bus;
         }
 
         [HttpPost("nova-conta")]
@@ -47,6 +52,9 @@ namespace NSE.Identity.API.Controllers
 
             if (result.Succeeded)
             {
+                // Integration
+                var sucesso = await RegistarCliente(usuarioRegisto);
+
                 return CustomResponse(await GerarJwt(usuarioRegisto.Email));
             }
 
@@ -58,6 +66,20 @@ namespace NSE.Identity.API.Controllers
             return CustomResponse();
         }
 
+        public async Task<ResponseMessage> RegistarCliente(UsuarioRegisto usuarioRegisto)
+        {
+            var utilizador = await _userManager.FindByEmailAsync(usuarioRegisto.Email);
+
+            var utilizadorRegistado = new UtilizadorRegistadoIntegrationEvent(
+                Guid.Parse(utilizador.Id), usuarioRegisto.Nome, usuarioRegisto.Email, usuarioRegisto.Cpf);
+
+            _bus = RabbitHutch.CreateBus("host=localhost:5672");
+
+            var sucesso = await _bus.Rpc.RequestAsync<UtilizadorRegistadoIntegrationEvent, ResponseMessage>(utilizadorRegistado);
+
+            return sucesso;
+        }
+        
         [HttpPost("autenticar")]
         public async Task<ActionResult> Login(UsuarioLogin usuarioLogin)
         {
