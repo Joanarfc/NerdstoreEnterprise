@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using FluentValidation.Results;
+using Microsoft.EntityFrameworkCore;
 using NSE.ShoppingCart.API.Model;
 using System.Linq;
 
@@ -19,6 +20,8 @@ namespace NSE.ShoppingCart.API.Data
             foreach (var property in modelBuilder.Model.GetEntityTypes().SelectMany(
                 e => e.GetProperties().Where(p => p.ClrType == typeof(string))))
                 property.SetColumnType("varchar(100)");
+
+            modelBuilder.Ignore<ValidationResult>();
 
             modelBuilder.Entity<CarrinhoCliente>()
                 .Property(p => p.ValorTotal)
