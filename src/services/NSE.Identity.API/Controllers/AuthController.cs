@@ -13,7 +13,7 @@ using System.Collections.Generic;
 using NSE.WebAPI.Core.Identidade;
 using NSE.WebAPI.Core.Controllers;
 using NSE.Core.Messages.Integration;
-using EasyNetQ;
+using NSE.MessageBus;
 
 namespace NSE.Identity.API.Controllers
 {
@@ -23,15 +23,17 @@ namespace NSE.Identity.API.Controllers
         private readonly SignInManager<IdentityUser> _signInManager;
         private readonly UserManager<IdentityUser> _userManager;
         private readonly AppSettings _appSettings;
-        private IBus _bus;
+        private readonly IMessageBus _bus;
 
         public AuthController(SignInManager<IdentityUser> signInManager,
                               UserManager<IdentityUser> userManager,
-                              IOptions<AppSettings> appSettings)
+                              IOptions<AppSettings> appSettings,
+                              IMessageBus bus)
         {
             _signInManager = signInManager;
             _userManager = userManager;
             _appSettings = appSettings.Value;
+            _bus = bus;
         }
 
         [HttpPost("nova-conta")]
@@ -50,8 +52,15 @@ namespace NSE.Identity.API.Controllers
 
             if (result.Succeeded)
             {
-                // Integration
-                var sucesso = await RegistarCliente(usuarioRegisto);
+                // Integration: if everything went well, we will create the client
+                var clientResult = await RegistarCliente(usuarioRegisto);
+
+                if(!clientResult.ValidationResult.IsValid)
+                {
+                    // In case we couldn't create the client, we will then delete the user
+                    await _userManager.DeleteAsync(user);
+                    return CustomResponse(clientResult.ValidationResult);
+                }
 
                 return CustomResponse(await GerarJwt(usuarioRegisto.Email));
             }
@@ -62,20 +71,6 @@ namespace NSE.Identity.API.Controllers
             }
 
             return CustomResponse();
-        }
-
-        public async Task<ResponseMessage> RegistarCliente(UsuarioRegisto usuarioRegisto)
-        {
-            var utilizador = await _userManager.FindByEmailAsync(usuarioRegisto.Email);
-
-            var utilizadorRegistado = new UtilizadorRegistadoIntegrationEvent(
-                Guid.Parse(utilizador.Id), usuarioRegisto.Nome, usuarioRegisto.Email, usuarioRegisto.Cpf);
-
-            _bus = RabbitHutch.CreateBus("host=localhost:5672");
-
-            var sucesso = await _bus.Rpc.RequestAsync<UtilizadorRegistadoIntegrationEvent, ResponseMessage>(utilizadorRegistado);
-
-            return sucesso;
         }
         
         [HttpPost("autenticar")]
@@ -177,5 +172,22 @@ namespace NSE.Identity.API.Controllers
         private static long ToUnixEpochDate(DateTime date)
         => (long)Math.Round((date.ToUniversalTime() - new DateTimeOffset(1970, 1, 1, 0, 0, 0,
               TimeSpan.Zero)).TotalSeconds);
+        public async Task<ResponseMessage> RegistarCliente(UsuarioRegisto usuarioRegisto)
+        {
+            var utilizador = await _userManager.FindByEmailAsync(usuarioRegisto.Email);
+
+            var utilizadorRegistado = new UtilizadorRegistadoIntegrationEvent(
+                Guid.Parse(utilizador.Id), usuarioRegisto.Nome, usuarioRegisto.Email, usuarioRegisto.Cpf);
+
+            try
+            {
+                return await _bus.RequestAsync<UtilizadorRegistadoIntegrationEvent, ResponseMessage>(utilizadorRegistado);
+            }
+            catch
+            {
+                await _userManager.DeleteAsync(utilizador);
+                throw;
+            }
+        }
     }
 }
