@@ -2,10 +2,11 @@
 using System;
 using System.Collections.Generic;
 using System.Security.Claims;
+using System.Text;
 
-namespace NSE.WebApp.MVC.Extensions
+namespace NSE.WebAPI.Core.Utilizador
 {
-    public class AspNetUser : IUser
+    public class AspNetUser : IAspNetUser
     {
         private readonly IHttpContextAccessor _accessor;
 
@@ -44,7 +45,7 @@ namespace NSE.WebApp.MVC.Extensions
         {
             return _accessor.HttpContext.User.Claims;
         }
-        
+
         public HttpContext ObterHttpContext()
         {
             return _accessor.HttpContext;

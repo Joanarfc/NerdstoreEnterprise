@@ -1,13 +1,13 @@
 ﻿using System;
 using System.Security.Claims;
 
-namespace NSE.WebApp.MVC.Extensions
+namespace NSE.WebAPI.Core.Utilizador
 {
     public static class ClaimsPrincipalExtensions
     {
         public static string GetUserId(this ClaimsPrincipal principal)
         {
-            if(principal == null)
+            if (principal == null)
             {
                 throw new ArgumentException(nameof(principal));
             }
