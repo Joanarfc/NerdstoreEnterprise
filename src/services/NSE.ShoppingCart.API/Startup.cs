@@ -4,6 +4,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using NSE.ShoppingCart.API.Configuration;
+using NSE.WebAPI.Core.Identidade;
 
 namespace NSE.ShoppingCart.API
 {
@@ -24,6 +25,8 @@ namespace NSE.ShoppingCart.API
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddApiConfiguration();
+
+            services.AddJwtConfiguration(Configuration);
 
             services.AddSwaggerConfiguration();
         }
