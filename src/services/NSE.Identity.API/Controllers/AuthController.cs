@@ -172,7 +172,7 @@ namespace NSE.Identity.API.Controllers
         private static long ToUnixEpochDate(DateTime date)
         => (long)Math.Round((date.ToUniversalTime() - new DateTimeOffset(1970, 1, 1, 0, 0, 0,
               TimeSpan.Zero)).TotalSeconds);
-        public async Task<ResponseMessage> RegistarCliente(UsuarioRegisto usuarioRegisto)
+        private async Task<ResponseMessage> RegistarCliente(UsuarioRegisto usuarioRegisto)
         {
             var utilizador = await _userManager.FindByEmailAsync(usuarioRegisto.Email);
 
