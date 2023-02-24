@@ -1,8 +1,8 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using NSE.ShoppingCart.API.Data;
 using NSE.ShoppingCart.API.Model;
+using NSE.ShoppingCart.API.Data;
 using NSE.WebAPI.Core.Controllers;
 using NSE.WebAPI.Core.Utilizador;
 using System;
@@ -39,7 +39,6 @@ namespace NSE.ShoppingCart.API.Controllers
             else
                 ManipularCarrinhoExistente(carrinho, item);
 
-            ValidarCarrinho(carrinho);
             if (!OperacaoValida()) return CustomResponse();
 
             await PersistirDados();
@@ -101,6 +100,7 @@ namespace NSE.ShoppingCart.API.Controllers
             var carrinho = new CarrinhoCliente(_user.ObterUserId());
             carrinho.AdicionarItem(item);
 
+            ValidarCarrinho(carrinho);
             _context.CarrinhoCliente.Add(carrinho);
         }
         private void ManipularCarrinhoExistente(CarrinhoCliente carrinho, CarrinhoItem item)
@@ -108,6 +108,7 @@ namespace NSE.ShoppingCart.API.Controllers
             var produtoItemExistente = carrinho.CarrinhoItemExistente(item);
 
             carrinho.AdicionarItem(item);
+            ValidarCarrinho(carrinho);
 
             if (produtoItemExistente)
             {
