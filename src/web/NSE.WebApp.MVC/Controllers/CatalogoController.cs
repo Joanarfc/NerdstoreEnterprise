@@ -7,9 +7,9 @@ namespace NSE.WebApp.MVC.Controllers
 {
     public class CatalogoController : MainController
     {
-        private readonly ICatalogoService _catalogoService;
+        private readonly CatalogoService _catalogoService;
 
-        public CatalogoController(ICatalogoService catalogoService)
+        public CatalogoController(CatalogoService catalogoService)
         {
             _catalogoService = catalogoService;
         }

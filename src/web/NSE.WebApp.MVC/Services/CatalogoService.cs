@@ -1,7 +1,6 @@
 ﻿using Microsoft.Extensions.Options;
 using NSE.WebApp.MVC.Extensions;
 using NSE.WebApp.MVC.Models;
-using Refit;
 using System;
 using System.Collections.Generic;
 using System.Net.Http;
