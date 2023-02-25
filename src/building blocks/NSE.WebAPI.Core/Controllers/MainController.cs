@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 using System.Linq;
 using FluentValidation.Results;
+using NSE.Core.Communication;
 
 namespace NSE.WebAPI.Core.Controllers
 {
@@ -38,6 +39,23 @@ namespace NSE.WebAPI.Core.Controllers
                 AdicionarErroProcessamento(erro.ErrorMessage);
             }
             return CustomResponse();
+        }
+        protected ActionResult CustomResponse(ResponseResult resposta)
+        {
+            ResponsePossuiErros(resposta);
+
+            return CustomResponse();
+        }
+
+        protected bool ResponsePossuiErros(ResponseResult resposta)
+        {
+            if (resposta == null || !resposta.Errors.Mensagens.Any()) return false;
+
+            foreach (var mensagem in resposta.Errors.Mensagens)
+            {
+                AdicionarErroProcessamento(mensagem);
+            }
+            return true;
         }
 
         protected bool OperacaoValida()
