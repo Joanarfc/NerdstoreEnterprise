@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using NSE.ShoppingCart.API.Data;
 
 namespace NSE.ShoppingCart.API.Migrations
 {
     [DbContext(typeof(CarrinhoContext))]
-    partial class CarrinhoContextModelSnapshot : ModelSnapshot
+    [Migration("20230227180015_VoucherCarrinho")]
+    partial class VoucherCarrinho
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

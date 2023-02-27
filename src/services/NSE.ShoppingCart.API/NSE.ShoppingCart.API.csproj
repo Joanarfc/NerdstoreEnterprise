@@ -5,6 +5,11 @@
 	</PropertyGroup>
 
 	<ItemGroup>
+	  <Compile Remove="Migrations\20230227175833_Voucher.cs" />
+	  <Compile Remove="Migrations\20230227175833_Voucher.Designer.cs" />
+	</ItemGroup>
+
+	<ItemGroup>
 		<PackageReference Include="Microsoft.EntityFrameworkCore" Version="3.1.29" />
 		<PackageReference Include="Microsoft.EntityFrameworkCore.Abstractions" Version="3.1.29" />
 		<PackageReference Include="Microsoft.EntityFrameworkCore.Relational" Version="3.1.29" />
