@@ -59,6 +59,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NSE.Bff.Compras", "src\api 
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NSE.Orders.Domain", "src\services\NSE.Orders.Domain\NSE.Orders.Domain.csproj", "{9105EACE-1DAF-456F-A112-29F644C898E6}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NSE.Orders.Infra", "src\services\NSE.Orders.Infra\NSE.Orders.Infra.csproj", "{A0B550FF-3BC2-41DE-8AEB-A55A4E9EE1F0}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -113,6 +115,10 @@ Global
 		{9105EACE-1DAF-456F-A112-29F644C898E6}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9105EACE-1DAF-456F-A112-29F644C898E6}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9105EACE-1DAF-456F-A112-29F644C898E6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A0B550FF-3BC2-41DE-8AEB-A55A4E9EE1F0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A0B550FF-3BC2-41DE-8AEB-A55A4E9EE1F0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A0B550FF-3BC2-41DE-8AEB-A55A4E9EE1F0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A0B550FF-3BC2-41DE-8AEB-A55A4E9EE1F0}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -145,6 +151,7 @@ Global
 		{6F12EB15-6038-4C78-8A1A-D2F6A92A661C} = {A6D83B75-9FE6-4450-9CDA-822CCF998E13}
 		{391B2858-2C33-4955-B5A7-C35C1AA85249} = {6F12EB15-6038-4C78-8A1A-D2F6A92A661C}
 		{9105EACE-1DAF-456F-A112-29F644C898E6} = {ADC8ED73-8284-4B89-8F72-D3ECF8FCAE6D}
+		{A0B550FF-3BC2-41DE-8AEB-A55A4E9EE1F0} = {ADC8ED73-8284-4B89-8F72-D3ECF8FCAE6D}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {9DAAE8BB-3082-41B4-8D80-5DBEE107CC43}
