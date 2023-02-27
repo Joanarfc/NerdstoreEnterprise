@@ -1,5 +1,7 @@
-﻿using NSE.Core.Data;
+﻿using Microsoft.EntityFrameworkCore;
+using NSE.Core.Data;
 using NSE.Orders.Domain.Vouchers;
+using System.Threading.Tasks;
 
 namespace NSE.Orders.Infra.Data.Repository
 {
@@ -12,7 +14,10 @@ namespace NSE.Orders.Infra.Data.Repository
             _context = context;
         }
         public IUnitOfWork UnitOfWork => _context;
-
+        public async Task<Voucher> ObterVoucherPorCodigo(string codigo)
+        {
+            return await _context.Vouchers.FirstOrDefaultAsync(p => p.Codigo == codigo);
+        }
         public void Dispose()
         {
             _context.Dispose();
