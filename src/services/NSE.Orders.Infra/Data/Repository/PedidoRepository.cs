@@ -3,6 +3,7 @@ using NSE.Core.Data;
 using NSE.Orders.Domain.Pedidos;
 using System;
 using System.Collections.Generic;
+using System.Data.Common;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -17,6 +18,7 @@ namespace NSE.Orders.Infra.Data.Repository
             _context = context;
         }
         public IUnitOfWork UnitOfWork => throw new NotImplementedException();
+        public DbConnection ObterConexao() => _context.Database.GetDbConnection();
 
         public async Task<Pedido> ObterPorId(Guid id)
         {
@@ -41,7 +43,6 @@ namespace NSE.Orders.Infra.Data.Repository
         {
             _context.Pedidos.Update(pedido);
         }
-
 
         public async Task<PedidoItem> ObterItemPorId(Guid id)
         {
