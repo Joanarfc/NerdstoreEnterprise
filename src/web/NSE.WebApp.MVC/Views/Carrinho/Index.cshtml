@@ -98,7 +98,7 @@
                             </table>
 
                             <div class="card-body border-top">
-                                <a href="#" class="btn btn-primary float-md-right"> Finalizar Compra <i class="fa fa-chevron-right"></i> </a>
+                                <a asp-controller="Pedido" asp-action="EnderecoEntrega" class="btn btn-primary float-md-right"> Finalizar Compra <i class="fa fa-chevron-right"></i> </a>
                                 <a asp-controller="Catalogo" asp-action="Index" class="btn btn-light"> <i class="fa fa-chevron-left"></i> Continuar Comprando </a>
                             </div>
                         </div>
@@ -111,7 +111,7 @@
                                     <div class="form-group">
                                         <label>Possui um Cupão?</label>
                                         <div class="input-group">
-                                            <input type="text" class="form-control" name="" placeholder="Cupão Desconto">
+                                            <input type="text" class="form-control" name="VoucherCodigo" id="VoucherCodigo" value="@Model.Voucher?.Codigo" placeholder="Cupão Desconto">
                                             <span class="input-group-append">
                                                 <button type="submit" class="btn btn-primary">Aplicar</button>
                                             </span>
@@ -122,19 +122,23 @@
                         </div>
                         <div class="card">
                             <div class="card-body">
+                                @{
+                                    if (Model.VoucherUtilizado)
+                                    {
+                                        <dl class="dlist-align">
+                                            <dt>Valor original:</dt>
+                                            <dd class="text-right">@this.FormatoMoeda(Model.ValorTotal + Model.Desconto)</dd>
+                                        </dl>
+                                        <dl class="dlist-align" style="color:green">
+                                            <dt>Desconto:</dt>
+                                            <dd class="text-right">@this.FormatoMoeda(Model.Desconto)</dd>
+                                        </dl>
+                                    }
+                                }
+
                                 <dl class="dlist-align">
                                     <dt><strong>Total:</strong></dt>
                                     <dd class="text-right  h5">
-                                        <strong>@this.FormatoMoeda(Model.ValorTotal)</strong>
-                                    </dd>
-                                </dl>
-                                <dl class="dlist-align">
-                                    <dt>Desconto:</dt>
-                                    <dd class="text-right">R$ 0,00</dd>
-                                </dl>
-                                <dl class="dlist-align">
-                                    <dt>Total:</dt>
-                                    <dd class="text-right h5">
                                         <strong>@this.FormatoMoeda(Model.ValorTotal)</strong>
                                     </dd>
                                 </dl>
