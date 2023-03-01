@@ -17,7 +17,7 @@ namespace NSE.Orders.Infra.Data.Repository
         {
             _context = context;
         }
-        public IUnitOfWork UnitOfWork => throw new NotImplementedException();
+        public IUnitOfWork UnitOfWork => _context;
         public DbConnection ObterConexao() => _context.Database.GetDbConnection();
 
         public async Task<Pedido> ObterPorId(Guid id)
