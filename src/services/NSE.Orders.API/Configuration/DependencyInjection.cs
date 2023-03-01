@@ -34,9 +34,9 @@ namespace NSE.Orders.API.Configuration
             services.AddScoped<IPedidoQueries, PedidoQueries>();
 
             //Data
-            services.AddScoped<PedidosContext>();
-            services.AddScoped<IVoucherRepository, VoucherRepository>();
             services.AddScoped<IPedidoRepository, PedidoRepository>();
+            services.AddScoped<IVoucherRepository, VoucherRepository>();
+            services.AddScoped<PedidosContext>();
         }
     }
 }

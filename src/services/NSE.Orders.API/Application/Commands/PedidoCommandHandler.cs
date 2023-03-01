@@ -19,7 +19,7 @@ namespace NSE.Orders.API.Application.Commands
         private readonly IVoucherRepository _voucherRepository;
         private readonly IPedidoRepository _pedidoRepository;
 
-        public PedidoCommandHandler(VoucherRepository voucherRepository, 
+        public PedidoCommandHandler(IVoucherRepository voucherRepository, 
                                     IPedidoRepository pedidoRepository)
         {
             _voucherRepository = voucherRepository;
