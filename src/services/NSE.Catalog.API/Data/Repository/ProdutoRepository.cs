@@ -1,10 +1,12 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Dapper;
+using Microsoft.EntityFrameworkCore;
 using NSE.Catalog.API.Models;
 using NSE.Core.Data;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 
 namespace NSE.Catalog.API.Data.Repository
 {
@@ -34,9 +36,37 @@ namespace NSE.Catalog.API.Data.Repository
             return await _context.Produtos.AsNoTracking()
                 .Where(p => idsValue.Contains(p.Id) && p.Ativo).ToListAsync();
         }
-        public async Task<IEnumerable<Produto>> ObterTodos()
+        public async Task<PagedResult<Produto>> ObterTodos(int pageSize, int pageIndex, string query = null)
         {
-            return await _context.Produtos.AsNoTracking().ToListAsync();
+            // Example of pagination using EF
+            //return await _context.Produtos.AsNoTracking()
+            //    .Skip(pageSize * (pageIndex - 1))
+            //    .Take(pageSize)
+            //    .Where(c => c.Nome.Contains(query))
+            //    .ToListAsync();
+
+            // Example of pagination using Dapper
+            var sql = @$"SELECT * FROM Produtos 
+                      WHERE (@Nome IS NULL OR Nome LIKE '%' + @Nome + '%') 
+                      ORDER BY [Nome] 
+                      OFFSET {pageSize * (pageIndex - 1)} ROWS 
+                      FETCH NEXT {pageSize} ROWS ONLY 
+                      SELECT COUNT(Id) FROM Produtos 
+                      WHERE (@Nome IS NULL OR Nome LIKE '%' + @Nome + '%')";
+
+            var multi = await _context.Database.GetDbConnection().QueryMultipleAsync(sql, new { Nome = query });
+
+            var produtos = multi.Read<Produto>();
+            var total = multi.Read<int>().FirstOrDefault();
+
+            return new PagedResult<Produto>()
+            {
+                List = produtos,
+                TotalResults = total,
+                PageIndex = pageIndex,
+                PageSize = pageSize,
+                Query = query
+            };
         }
         public void Adicionar(Produto produto)
         {
