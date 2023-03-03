@@ -12,5 +12,14 @@ namespace NSE.Catalog.API.Models
         public DateTime DataCadastro { get; set; }
         public string Imagem { get; set; }
         public int QuantidadeDeStock { get; set; }
+        public void RetirarStock(int quantidade)
+        {
+            if (QuantidadeDeStock >= quantidade)
+                QuantidadeDeStock -= quantidade;
+        }
+        public bool EstaDisponivel(int quantidade)
+        {
+            return Ativo && QuantidadeDeStock >= quantidade;
+        }
     }
 }
