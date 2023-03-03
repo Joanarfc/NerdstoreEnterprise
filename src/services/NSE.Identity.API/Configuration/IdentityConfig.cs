@@ -29,8 +29,6 @@ namespace NSE.Identity.API.Configuration
                 .AddErrorDescriber<IdentityMensagensPortugues>()
                 .AddEntityFrameworkStores<ApplicationDbContext>()
                 .AddDefaultTokenProviders();
-
-            services.AddJwtConfiguration(configuration);
         }
     }
 }
