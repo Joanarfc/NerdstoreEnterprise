@@ -28,6 +28,8 @@ namespace NSE.Identity.API
 
             services.AddSwaggerConfiguration();
 
+            services.RegisterServices();
+
             services.AddMessageBusConfiguration(Configuration);
         }
 

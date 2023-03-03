@@ -29,6 +29,8 @@ namespace NSE.Identity.API.Configuration
             {
                 endpoints.MapControllers();
             });
+
+            app.UseJwksDiscovery();
         }
     }
 }
