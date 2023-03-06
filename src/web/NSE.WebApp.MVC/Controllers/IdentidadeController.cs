@@ -40,7 +40,7 @@ namespace NSE.WebApp.MVC.Controllers
             if (ResponsePossuiErros(resposta.ResponseResult)) return View(usuarioRegisto);
 
             // Execute login in the app
-            await RealizarLogin(resposta);
+            await _autenticacaoService.RealizarLogin(resposta);
 
             return RedirectToAction("Index", "Catalogo");
         }
@@ -69,7 +69,7 @@ namespace NSE.WebApp.MVC.Controllers
             if (ResponsePossuiErros(resposta.ResponseResult)) return View(usuarioLogin);
 
             // Execute login in the app
-            await RealizarLogin(resposta);
+            await _autenticacaoService.RealizarLogin(resposta);
 
             if (string.IsNullOrEmpty(returnUrl)) return RedirectToAction("Index", "Catalogo");
 
@@ -80,40 +80,9 @@ namespace NSE.WebApp.MVC.Controllers
         [Route("sair")]
         public async Task<IActionResult> Logout()
         {
-            await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
+            await _autenticacaoService.Logout();
 
             return RedirectToAction("Index", "Catalogo");
-        }
-
-        public async Task RealizarLogin(UsuarioRespostaLogin resposta)
-        {
-            /* Get the AccessToken from 'resposta' converted in JwtSecurityToken format */
-            var token = ObterTokenFormatado(resposta.AccessToken);
-
-            var claims = new List<Claim>();
-
-            claims.Add(new Claim("JWT", resposta.AccessToken));
-
-            claims.AddRange(token.Claims);
-
-            /* The ClaimsIdentity object contains the claims collection + the Cookie Authentication Scheme */
-            var claimsIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
-
-            var authProperties = new AuthenticationProperties
-            {
-                ExpiresUtc = DateTimeOffset.UtcNow.AddMinutes(60),
-                IsPersistent = true
-            };
-
-            await HttpContext.SignInAsync(
-                CookieAuthenticationDefaults.AuthenticationScheme,
-                new ClaimsPrincipal(claimsIdentity),
-                authProperties);
-        }
-
-        private static JwtSecurityToken ObterTokenFormatado(string jwtToken)
-        {
-            return new JwtSecurityTokenHandler().ReadToken(jwtToken) as JwtSecurityToken;
         }
     }
 }

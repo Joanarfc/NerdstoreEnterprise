@@ -82,7 +82,7 @@ namespace NSE.Identity.API.Services
             {
                 Issuer = currentIssuer,
                 Subject = identityClaims,
-                Expires = DateTime.UtcNow.AddMinutes(1),
+                Expires = DateTime.UtcNow.AddHours(1),
                 SigningCredentials = key
             });
 
