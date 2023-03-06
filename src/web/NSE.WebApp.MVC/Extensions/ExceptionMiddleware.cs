@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Grpc.Core;
+using Microsoft.AspNetCore.Http;
 using NSE.WebApp.MVC.Services;
 using Polly.CircuitBreaker;
 using Refit;
@@ -28,7 +29,7 @@ namespace NSE.WebApp.MVC.Extensions
             {
                 HandleRequestExceptionAsync(httpContext, ex.StatusCode);
             }
-            catch(ValidationApiException ex)
+            catch (ValidationApiException ex)
             {
                 HandleRequestExceptionAsync(httpContext, ex.StatusCode);
             }
@@ -36,9 +37,28 @@ namespace NSE.WebApp.MVC.Extensions
             {
                 HandleRequestExceptionAsync(httpContext, ex.StatusCode);
             }
-            catch(BrokenCircuitException ex)
+            catch (BrokenCircuitException)
             {
                 HandleCircuitBreakerExceptionAsync(httpContext);
+            }
+            catch (RpcException ex)
+            {
+                // 400 Bad Request      INTERNAL
+                // 401 Unauthorized     UNAUTHENTICATED
+                // 403 Forbidden        PERMISSION_DENIED
+                // 404 NOT FOUND        UNIMPLEMENTED
+                var statusCode = ex.StatusCode switch
+                {
+                    StatusCode.Internal => 400,
+                    StatusCode.Unauthenticated => 401,
+                    StatusCode.PermissionDenied => 403,
+                    StatusCode.Unimplemented => 404,
+                    _ => 500
+                };
+
+                var httpStatusCode = (HttpStatusCode)Enum.Parse(typeof(HttpStatusCode), statusCode.ToString());
+
+                HandleRequestExceptionAsync(httpContext, httpStatusCode);
             }
         }
 
@@ -46,10 +66,10 @@ namespace NSE.WebApp.MVC.Extensions
         {
             if (statusCode == HttpStatusCode.Unauthorized)
             {
-                if(_autenticacaoService.TokenExpirado())
+                if (_autenticacaoService.TokenExpirado())
                 {
                     // Get new JWT
-                    if(_autenticacaoService.RefreshTokenValido().Result)
+                    if (_autenticacaoService.RefreshTokenValido().Result)
                     {
                         context.Response.Redirect(context.Request.Path);
                         return;
