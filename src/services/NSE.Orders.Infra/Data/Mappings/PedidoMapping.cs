@@ -1,9 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Microsoft.EntityFrameworkCore;
 using NSE.Orders.Domain.Pedidos;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace NSE.Orders.Infra.Data.Mappings
 {

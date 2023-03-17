@@ -1,15 +1,10 @@
-﻿using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.IdentityModel.Tokens;
 using NetDevPack.Security.Jwt.Core.Jwa;
 using NSE.Identity.API.Data;
 using NSE.Identity.API.Extensions;
-using NSE.WebAPI.Core.Identidade;
-using System.Text;
 
 namespace NSE.Identity.API.Configuration
 {

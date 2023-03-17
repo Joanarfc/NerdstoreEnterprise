@@ -4,7 +4,6 @@ using NSE.Customers.API.Application.Commands;
 using NSE.Customers.API.Models;
 using NSE.WebAPI.Core.Controllers;
 using NSE.WebAPI.Core.Utilizador;
-using System;
 using System.Threading.Tasks;
 
 namespace NSE.Customers.API.Controllers

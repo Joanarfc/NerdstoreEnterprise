@@ -1,8 +1,6 @@
 ﻿using NetDevPack.Specification;
 using System;
-using System.Collections.Generic;
 using System.Linq.Expressions;
-using System.Text;
 
 namespace NSE.Orders.Domain.Vouchers.Specs
 {
