@@ -42,6 +42,27 @@ namespace NSE.Orders.Infra.Data
             
             modelBuilder.HasSequence<int>("MinhaSequencia").StartsAt(1000).IncrementsBy(1);
 
+            // Configure decimal properties with store type, precision, and scale
+            modelBuilder.Entity<Pedido>()
+               .Property(p => p.Desconto)
+               .HasColumnType("decimal(18, 2)");
+
+            modelBuilder.Entity<Pedido>()
+                .Property(p => p.ValorTotal)
+                .HasColumnType("decimal(18, 2)");
+
+            modelBuilder.Entity<PedidoItem>()
+                .Property(i => i.ValorUnitario)
+                .HasColumnType("decimal(18, 2)");
+
+            modelBuilder.Entity<Voucher>()
+                .Property(v => v.Percentual)
+                .HasColumnType("decimal(18, 2)");
+
+            modelBuilder.Entity<Voucher>()
+                .Property(v => v.ValorDesconto)
+                .HasColumnType("decimal(18, 2)");
+
             base.OnModelCreating(modelBuilder);
         }
 
