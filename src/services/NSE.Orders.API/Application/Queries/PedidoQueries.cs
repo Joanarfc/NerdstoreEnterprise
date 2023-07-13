@@ -49,7 +49,7 @@ namespace NSE.Orders.API.Application.Queries
         }
         public async Task<PedidoDTO> ObterPedidosAutorizados()
         {
-            const string sql = @"SELECT TOP 1
+            const string sql = @"SELECT
                                 P.ID as 'PedidoId', P.ID, P.CLIENTEID, 
                                 PI.ID as 'PedidoItemId', PI.ID, PI.PRODUTOID, PI.QUANTIDADE 
                                 FROM PEDIDOS P 
@@ -57,16 +57,23 @@ namespace NSE.Orders.API.Application.Queries
                                 WHERE P.PEDIDOSTATUS = 1                                
                                 ORDER BY P.DATACADASTRO";
 
-            var pedido = await _pedidoRepository.ObterConexao().QueryAsync<PedidoDTO, PedidoItemDTO, PedidoDTO>(sql,
-                (p, pi) =>
-                {
-                    p.PedidoItens ??= new List<PedidoItemDTO>();
-                    p.PedidoItens.Add(pi);
+            // Lookup to keep state at every cycle
+            var lookup = new Dictionary<Guid, PedidoDTO>();
 
-                    return p;
-                }, splitOn: "PedidoId,PedidoItemId");
+            await _pedidoRepository.ObterConexao().QueryAsync<PedidoDTO, PedidoItemDTO, PedidoDTO>(sql, (p, pi) =>
+            {
+                if (!lookup.TryGetValue(p.Id, out var pedidoDTO))
+                    lookup.Add(p.Id, pedidoDTO = p);
 
-            return pedido.FirstOrDefault();
+                pedidoDTO.PedidoItens ??= new List<PedidoItemDTO>();
+                pedidoDTO.PedidoItens.Add(pi);
+
+                return pedidoDTO;
+
+            }, splitOn: "PedidoId,PedidoItemId");
+
+            // Get Lookup data
+            return lookup.Values.OrderBy(p => p.Data).FirstOrDefault();
         }
         private PedidoDTO MapearPedido(dynamic result)
         {
