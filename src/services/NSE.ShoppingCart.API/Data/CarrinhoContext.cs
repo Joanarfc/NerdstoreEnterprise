@@ -28,6 +28,10 @@ namespace NSE.ShoppingCart.API.Data
                 .HasColumnType("decimal(18,2)");
 
             modelBuilder.Entity<CarrinhoCliente>()
+                .Property(c => c.Desconto)
+                .HasColumnType("decimal(18,2)");
+
+            modelBuilder.Entity<CarrinhoCliente>()
                 .HasIndex(c => c.ClienteId)
                 .HasName("IDX_Cliente");
 
@@ -42,10 +46,12 @@ namespace NSE.ShoppingCart.API.Data
                     v.Property(vc => vc.TipoDesconto)
                     .HasColumnName("TipoDesconto");
                     v.Property(vc => vc.Percentual)
-                    .HasColumnName("Percentual");
+                    .HasColumnName("Percentual")
+                    .HasColumnType("decimal(18,2)");
                     
                     v.Property(vc => vc.ValorDesconto)
-                    .HasColumnName("ValorDesconto");
+                    .HasColumnName("ValorDesconto")
+                    .HasColumnType("decimal(18,2)");
                 });
 
             modelBuilder.Entity<CarrinhoCliente>()

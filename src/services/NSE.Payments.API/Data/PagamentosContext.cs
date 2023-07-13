@@ -33,6 +33,18 @@ namespace NSE.Payments.API.Data
             foreach (var relationship in modelBuilder.Model.GetEntityTypes()
                 .SelectMany(e => e.GetForeignKeys())) relationship.DeleteBehavior = DeleteBehavior.ClientSetNull;
 
+            modelBuilder.Entity<Pagamento>()
+                .Property(p => p.Valor)
+                .HasColumnType("decimal(18,2)");
+
+            modelBuilder.Entity<Transacao>()
+                .Property(t => t.CustoTransacao)
+                .HasColumnType("decimal(18,2)");
+
+            modelBuilder.Entity<Transacao>()
+                .Property(t => t.ValorTotal)
+                .HasColumnType("decimal(18,2)");
+
             modelBuilder.ApplyConfigurationsFromAssembly(typeof(PagamentosContext).Assembly);
         }
 
