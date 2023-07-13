@@ -27,9 +27,9 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Customers", "Customers", "{
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NSE.Customers.API", "src\services\NSE.Customers.API\NSE.Customers.API.csproj", "{2F4D1875-65D1-4E6F-B583-D61416F6E9CF}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Payment", "Payment", "{7FD01723-1E8A-4158-AB86-C95E7F214343}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Payments", "Payments", "{7FD01723-1E8A-4158-AB86-C95E7F214343}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NSE.Payments.API", "src\services\NSE.Payment.API\NSE.Payments.API.csproj", "{4F6EACC9-4297-42B2-9DB5-F27D731D18DE}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NSE.Payments.API", "src\services\NSE.Payments.API\NSE.Payments.API.csproj", "{4F6EACC9-4297-42B2-9DB5-F27D731D18DE}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Orders", "Orders", "{ADC8ED73-8284-4B89-8F72-D3ECF8FCAE6D}"
 EndProject
