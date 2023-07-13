@@ -32,7 +32,7 @@ namespace NSE.WebApp.MVC.Configuration
                 .AddTransientHttpErrorPolicy(
                 p => p.CircuitBreakerAsync(5, TimeSpan.FromSeconds(30)));
 
-            services.AddHttpClient<CatalogoService, CatalogoService>()
+            services.AddHttpClient<ICatalogoService, CatalogoService>()
                 .AddHttpMessageHandler<HttpClientAuthorizationDelegatingHandler>()
                 .AddPolicyHandler(PollyExtensions.EsperarTentar())
                 .AddTransientHttpErrorPolicy(
