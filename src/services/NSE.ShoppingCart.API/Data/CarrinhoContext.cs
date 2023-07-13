@@ -33,7 +33,7 @@ namespace NSE.ShoppingCart.API.Data
 
             modelBuilder.Entity<CarrinhoCliente>()
                 .HasIndex(c => c.ClienteId)
-                .HasName("IDX_Cliente");
+                .HasDatabaseName("IDX_Cliente");
 
             modelBuilder.Entity<CarrinhoCliente>()
                 .Ignore(c => c.Voucher)
