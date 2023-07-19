@@ -2,6 +2,9 @@
 
 	<PropertyGroup>
 		<TargetFramework>net6.0</TargetFramework>
+		<UserSecretsId>f2d9be38-93c3-4a0c-ade3-af621ecd48b4</UserSecretsId>
+		<DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
+		<DockerfileContext>..\..\..</DockerfileContext>
 	</PropertyGroup>
 
 	<ItemGroup>
@@ -9,6 +12,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
+		<PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.18.1" />
 		<PackageReference Include="Swashbuckle.AspNetCore" Version="6.4.0" />
 		<PackageReference Include="Microsoft.EntityFrameworkCore" Version="6.0.8" />
 		<PackageReference Include="Microsoft.EntityFrameworkCore.Abstractions" Version="6.0.8" />
