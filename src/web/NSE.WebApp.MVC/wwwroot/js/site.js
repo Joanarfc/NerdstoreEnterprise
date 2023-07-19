@@ -1,5 +1,5 @@
 ﻿function BuscaCep() {
-    $(document).ready(function () {
+    $(function () {
 
         function limpa_formulário_cep() {
             // Cleans the values in the CEP form
@@ -10,7 +10,7 @@
         }
 
         // When the CEP looses the focus
-        $("#Endereco_Cep").blur(function () {
+        $("#Endereco_Cep").on("blur", function () {
 
             // New variable "cep" only with digits
             var cep = $(this).val().replace(/\D/g, '');

@@ -31,6 +31,10 @@ namespace NSE.Customers.API.Application.Commands
                     .NotEqual(Guid.Empty)
                     .WithMessage("Id do cliente inválido!");
 
+                RuleFor(c => c.Nome)
+                    .NotEmpty()
+                    .WithMessage("O nome do cliente não foi informado");
+
                 RuleFor(c => c.Cpf)
                     .Must(TerCpfValido)
                     .WithMessage("O CPF informado não é válido!");

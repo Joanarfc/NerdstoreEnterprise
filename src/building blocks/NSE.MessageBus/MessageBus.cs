@@ -40,10 +40,10 @@ namespace NSE.MessageBus
             _bus.PubSub.Subscribe(subscriptionId, onMessage);
         }
 
-        public void SubscribeAsync<T>(string subscriptionId, Func<T, Task> onMessage) where T : class
+        public async void SubscribeAsync<T>(string subscriptionId, Func<T, Task> onMessage) where T : class
         {
             TryConnect();
-            _bus.PubSub.SubscribeAsync(subscriptionId, onMessage);
+            await _bus.PubSub.SubscribeAsync(subscriptionId, onMessage);
         }
 
         public TResponse Request<TRequest, TResponse>(TRequest request) where TRequest : IntegrationEvent

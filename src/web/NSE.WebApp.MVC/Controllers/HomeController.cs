@@ -3,7 +3,7 @@ using NSE.WebApp.MVC.Models;
 
 namespace NSE.WebApp.MVC.Controllers
 {
-    public class HomeController : Controller
+    public class HomeController : MainController
     {
         [Route("sistema-indisponivel")]
         public IActionResult SistemaIndisponivel()

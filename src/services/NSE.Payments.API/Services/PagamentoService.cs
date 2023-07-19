@@ -13,7 +13,7 @@ namespace NSE.Payments.API.Services
     {
         private readonly IPagamentoFacade _pagamentoFacade;
         private readonly IPagamentoRepository _pagamentoRepository;
-        public PagamentoService(IPagamentoFacade pagamentoFacade, 
+        public PagamentoService(IPagamentoFacade pagamentoFacade,
                                 IPagamentoRepository pagamentoRepository)
         {
             _pagamentoFacade = pagamentoFacade;
@@ -43,7 +43,8 @@ namespace NSE.Payments.API.Services
                 validationResult.Errors.Add(new ValidationFailure("Pagamento",
                     "Houve um erro ao realizar o pagamento"));
 
-                // TODO: communication with the gateway to execute the Charge Back
+                // Cancel payment in the gateway
+                await CancelarPagamento(pagamento.PedidoId);
 
                 return new ResponseMessage(validationResult);
             }
