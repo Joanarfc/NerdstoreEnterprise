@@ -13,7 +13,7 @@ namespace NSE.Orders.API.Services
 {
     public class PedidoOrquestradorIntegrationHandler : IHostedService, IDisposable
     {
-        private IServiceProvider _serviceProvider;
+        private readonly IServiceProvider _serviceProvider;
         private readonly ILogger<PedidoOrquestradorIntegrationHandler> _logger;
         private Timer _timer;
 
@@ -33,19 +33,6 @@ namespace NSE.Orders.API.Services
 
             return Task.CompletedTask;
         }
-
-        public Task StopAsync(CancellationToken cancellationToken)
-        {
-            _logger.LogInformation("Serviço de pedidos finalizado.");
-
-            _timer.Change(Timeout.Infinite, 0);
-
-            return Task.CompletedTask;
-        }
-        public void Dispose()
-        {
-            _timer?.Dispose();
-        }
         private async void ProcessarPedidos(object state)
         {
             using (var scope = _serviceProvider.CreateScope())
@@ -64,6 +51,18 @@ namespace NSE.Orders.API.Services
 
                 _logger.LogInformation($"Pedido Id: {pedido.Id} foi encaminhado para dar baixa no stock.");
             }
+        }
+        public Task StopAsync(CancellationToken cancellationToken)
+        {
+            _logger.LogInformation("Serviço de pedidos finalizado.");
+
+            _timer.Change(Timeout.Infinite, 0);
+
+            return Task.CompletedTask;
+        }
+        public void Dispose()
+        {
+            _timer?.Dispose();
         }
     }
 }
