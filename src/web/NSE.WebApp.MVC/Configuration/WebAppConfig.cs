@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.DataProtection;
 using Microsoft.AspNetCore.Localization;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -13,6 +14,10 @@ namespace NSE.WebApp.MVC.Configuration
         public static void AddMvcConfiguration(this IServiceCollection services, IConfiguration configuration)
         {
             services.AddControllersWithViews();
+
+            services.AddDataProtection()
+                .PersistKeysToFileSystem(new System.IO.DirectoryInfo(@"/var/data_protection_keys"))
+                .SetApplicationName("NerdStoreEnterprise");
 
             services.Configure<AppSettings>(configuration);
         }

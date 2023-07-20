@@ -27,7 +27,9 @@ services:
             dockerfile: ./web/NSE.WebApp.MVC/Dockerfile
         environment:
             - ASPNETCORE_ENVIRONMENT=Production
-            - ASPNETCORE_URLS=http://+:5001       
+            - ASPNETCORE_URLS=http://*:5001
+        volumes: 
+            - dpkeys:/var/data_protection_keys/         
         depends_on:
             - api-catalog
             - api-identity
@@ -47,6 +49,7 @@ services:
             - ASPNETCORE_Kestrel__Certificates__Default__Path=/https/nerdstore-certificate.pfx
         volumes:
             - ./certs:/https:ro
+            - dpkeys:/var/data_protection_keys/
         depends_on:
             - rabbitmq
             - sql-server
@@ -64,6 +67,7 @@ services:
             - ASPNETCORE_Kestrel__Certificates__Default__Path=/https/nerdstore-certificate.pfx
         volumes:
             - ./certs:/https:ro
+            - dpkeys:/var/data_protection_keys/
         depends_on:
             - rabbitmq
             - api-identity
@@ -82,6 +86,7 @@ services:
             - ASPNETCORE_Kestrel__Certificates__Default__Path=/https/nerdstore-certificate.pfx
         volumes:
             - ./certs:/https:ro
+            - dpkeys:/var/data_protection_keys/
         depends_on:
             - rabbitmq
             - sql-server
@@ -99,6 +104,7 @@ services:
             - ASPNETCORE_Kestrel__Certificates__Default__Path=/https/nerdstore-certificate.pfx
         volumes:
             - ./certs:/https:ro
+            - dpkeys:/var/data_protection_keys/
         depends_on:
             - rabbitmq
             - api-identity
@@ -117,6 +123,7 @@ services:
             - ASPNETCORE_Kestrel__Certificates__Default__Path=/https/nerdstore-certificate.pfx
         volumes:
             - ./certs:/https:ro
+            - dpkeys:/var/data_protection_keys/
         depends_on:
             - rabbitmq
             - api-identity
@@ -137,6 +144,7 @@ services:
             - ASPNETCORE_Kestrel__Certificates__Default__Path=/https/nerdstore-certificate.pfx
         volumes:
             - ./certs:/https:ro
+            - dpkeys:/var/data_protection_keys/
         depends_on:
             - rabbitmq
             - api-identity
@@ -156,6 +164,7 @@ services:
             - ASPNETCORE_Kestrel__Certificates__Default__Path=/https/nerdstore-certificate.pfx
         volumes:
             - ./certs:/https:ro
+            - dpkeys:/var/data_protection_keys/
         depends_on:
             - rabbitmq
             - sql-server
@@ -172,3 +181,6 @@ services:
             - "443:443"
         depends_on:
             - web-mvc
+
+volumes:
+    dpkeys:
