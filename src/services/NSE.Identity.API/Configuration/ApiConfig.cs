@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.DataProtection;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -11,6 +12,10 @@ namespace NSE.Identity.API.Configuration
         public static void AddApiConfiguration(this IServiceCollection services)
         {
             services.AddControllers();
+
+            services.AddDataProtection()
+                .PersistKeysToFileSystem(new System.IO.DirectoryInfo(@"/var/data_protection_keys"))
+                .SetApplicationName("NerdStoreEnterprise");
         }
         public static void UseApiConfiguration(this IApplicationBuilder app, IWebHostEnvironment env)
         {
