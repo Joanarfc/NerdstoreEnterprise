@@ -25,6 +25,7 @@ services:
         build:
             context: ../src
             dockerfile: ./web/NSE.WebApp.MVC/Dockerfile
+        restart: always            
         environment:
             - ASPNETCORE_ENVIRONMENT=Production
             - ASPNETCORE_URLS=http://*:5001
@@ -42,6 +43,7 @@ services:
         build: 
             context: ../src
             dockerfile: ./services/NSE.Identity.API/Dockerfile  
+        restart: always    
         environment: 
             - ASPNETCORE_ENVIRONMENT=Production
             - ASPNETCORE_URLS=https://+:5101;http://+5102
@@ -60,6 +62,7 @@ services:
         build: 
             context: ../src
             dockerfile: ./services/NSE.ShoppingCart.API/Dockerfile      
+        restart: always             
         environment: 
             - ASPNETCORE_ENVIRONMENT=Production
             - ASPNETCORE_URLS=https://+:5201;http://+5202
@@ -79,6 +82,7 @@ services:
         build: 
             context: ../src
             dockerfile: ./services/NSE.Catalog.API/Dockerfile
+        restart: always 
         environment: 
             - ASPNETCORE_ENVIRONMENT=Production
             - ASPNETCORE_URLS=https://+:5301;http://+5302
@@ -97,6 +101,7 @@ services:
         build: 
             context: ../src
             dockerfile: ./services/NSE.Customers.API/Dockerfile
+        restart: always 
         environment: 
             - ASPNETCORE_ENVIRONMENT=Production
             - ASPNETCORE_URLS=https://+:5401;http://+5402
@@ -116,6 +121,7 @@ services:
         build: 
             context: ../src
             dockerfile: ./api gateways/NSE.Bff.Compras/Dockerfile  
+        restart: always 
         environment: 
             - ASPNETCORE_ENVIRONMENT=Production
             - ASPNETCORE_URLS=https://+:5501;http://+5502
@@ -137,6 +143,7 @@ services:
         build: 
             context: ../src
             dockerfile: ./services/NSE.Payments.API/Dockerfile
+        restart: always    
         environment: 
             - ASPNETCORE_ENVIRONMENT=Production
             - ASPNETCORE_URLS=https://+:5601;http://+5602
@@ -157,6 +164,7 @@ services:
         build: 
             context: ../src
             dockerfile: ./services/NSE.Orders.API/Dockerfile 
+        restart: always             
         environment: 
             - ASPNETCORE_ENVIRONMENT=Production
             - ASPNETCORE_URLS=https://+:5701;http://+5702
@@ -176,6 +184,7 @@ services:
         build: 
             context: ./
             dockerfile: ./nginx/Dockerfile 
+        restart: always 
         ports:
             - "8080:80"
             - "443:443"
