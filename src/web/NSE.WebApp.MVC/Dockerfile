@@ -15,7 +15,7 @@ WORKDIR "web/NSE.WebApp.MVC"
 RUN dotnet build "NSE.WebApp.MVC.csproj" -c Release -o /app/build
 
 FROM build AS publish
-RUN dotnet publish "NSE.WebApp.MVC.csproj" -c Release -o /app/publish /p:UseAppHost=false
+RUN dotnet publish "NSE.WebApp.MVC.csproj" -c Release -o /app/publish
 
 FROM base AS final
 WORKDIR /app
