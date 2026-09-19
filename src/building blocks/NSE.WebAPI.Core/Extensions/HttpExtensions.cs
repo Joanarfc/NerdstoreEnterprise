@@ -13,11 +13,8 @@ namespace NSE.WebAPI.Core.Extensions
                 throw new ArgumentNullException(nameof(builder));
             }
 
-            return builder.ConfigureHttpMessageHandlerBuilder(b =>
-            {
-                b.PrimaryHandler =
-                    new HttpClientHandler { ServerCertificateCustomValidationCallback = HttpClientHandler.DangerousAcceptAnyServerCertificateValidator };
-            });
+            return builder.ConfigurePrimaryHttpMessageHandler(() =>
+                new HttpClientHandler { ServerCertificateCustomValidationCallback = HttpClientHandler.DangerousAcceptAnyServerCertificateValidator });
         }
     }
 }
